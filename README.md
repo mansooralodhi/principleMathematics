@@ -1,5 +1,5 @@
 ### Objective
-Study the fundamental concepts in mathematics (optimzation, differentiation) by implmenting methods from scratch.
+Study the fundamental concepts in mathematics (optimzation, differentiation) by programming.
 
 <details open>	
   <summary> Topics </summary>
