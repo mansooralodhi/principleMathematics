@@ -38,12 +38,6 @@ class DualNumber:
         Note:
             -   if variable is initialized as DualNumber with tangent 1,
                 then derivative will be computed with respect to this variable.
-            -   in forward-mode or tangent-mode, we can make tangent 1 of only
-                one variable. in other words, we can compute derivative of
-                all output functions w.r.t only single variable/input.
-            -   in reverse-mode or adjoint-mode, we can make tangent 1 of
-                more than one variable. in other words, we can compute
-                derivative of a single output  w.r.t all input variables.
         """
         self.primal = primal
         self.tangent = tangent
