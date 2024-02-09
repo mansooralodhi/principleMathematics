@@ -1,6 +1,6 @@
 from src.algo_differentiation.operator_overloading.ops import *
-from src.algo_differentiation.operator_overloading.dual_number import DualNumber
 from src.algo_differentiation.operator_overloading.verify_grad import *
+from src.algo_differentiation.operator_overloading.dual_number import DualNumber
 
 """
 Forward-Mode or Tangent-Mode Algorithm
@@ -18,12 +18,19 @@ DualNumbers:
 
 """
 
-f = lambda x, y, z: 4*x + 6*y - 3 * z
 
-x = DualNumber(10, 1)  # with respect to variable x
+# todo:
+#       1. build matrix-vector product based on DualNumber
+#           - matrix should be computed based on primal values
+#           - vector is the binary vector corresponding to
+#             initialization or derivative w.r.t.
+
+f = lambda x, y: x*y
+
+x = DualNumber(10, 0)  # with respect to variable x
 y = DualNumber(20, 1)  # with respect to variable y
 z = DualNumber(5, 1)  # with respect to variable y
-print(f(x, y, z))
+print(f(x, y))
 
-ans = froward_difference(f, [10, 20, 5], [1, 1, 1])
+ans = froward_difference(f, [10, 20], [0, 1])
 print(ans)

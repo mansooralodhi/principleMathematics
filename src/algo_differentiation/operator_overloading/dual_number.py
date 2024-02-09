@@ -1,11 +1,6 @@
 from numbers import Number
 from typing import Literal
 
-# todo:
-#       1. build matrix-vector product based on DualNumber
-#           - matrix should be computed based on primal values
-#           - vector is the binary vector corresponding to
-#             initialization or derivative w.r.t.
 
 """                 General Differentiation Rules ! 
 Product Rule: 
