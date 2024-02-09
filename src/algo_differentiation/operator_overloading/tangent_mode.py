@@ -1,6 +1,6 @@
 from src.algo_differentiation.operator_overloading.ops import *
 from src.algo_differentiation.operator_overloading.dual_number import DualNumber
-from src.algo_differentiation.operator_overloading.utls import froward_difference
+from src.algo_differentiation.operator_overloading.verify_grad import *
 
 """
 Forward-Mode or Tangent-Mode Algorithm
@@ -18,11 +18,12 @@ DualNumbers:
 
 """
 
-f = lambda x, y: -1 * (sin(y) - cos(x))
+f = lambda x, y, z: 4*x + 6*y - 3 * z
 
 x = DualNumber(10, 1)  # with respect to variable x
 y = DualNumber(20, 1)  # with respect to variable y
-print(f(x, y))
+z = DualNumber(5, 1)  # with respect to variable y
+print(f(x, y, z))
 
-ans = froward_difference(f, 10, 20)
+ans = froward_difference(f, [10, 20, 5], [1, 1, 1])
 print(ans)
