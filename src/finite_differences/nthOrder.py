@@ -11,9 +11,9 @@ high enough to even get a derivative.
 
 class NthOrder(Function):
 
-    def __init__(self, h):
+    def __init__(self, h=None):
         super().__init__()
-        self.h = h
+        self.h = h if h is not None else np.finfo("float32").eps
 
     def central_difference(self, x, order, h=None):
         if h:

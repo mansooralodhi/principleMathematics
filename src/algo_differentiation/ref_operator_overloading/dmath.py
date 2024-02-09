@@ -10,7 +10,7 @@ source: https://github.com/Mostafa-Samir/Hands-on-Intro-to-Auto-Diff/blob/master
 Functions Template
 -----------------
 func(x):
-    if x is dual_number:
+    if x is dual_numbers:
         return DualNumber ( math.func(x.real), func_derivative(x.real) * x.dual )
     return math.func(x)
 """
