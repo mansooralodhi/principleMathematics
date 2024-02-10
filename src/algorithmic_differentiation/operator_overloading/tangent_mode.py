@@ -24,6 +24,7 @@ DualNumbers:
 #           - matrix should be computed based on primal values
 #           - vector is the binary vector corresponding to
 #             initialization or derivative w.r.t.
+#       2. find higher-order derivatives
 
 f = lambda x, y: x*y
 
