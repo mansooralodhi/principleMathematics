@@ -1,6 +1,6 @@
-from src.algo_differentiation.operator_overloading.ops import *
-from src.algo_differentiation.operator_overloading.verify_grad import *
-from src.algo_differentiation.operator_overloading.dual_number import DualNumber
+from src.algorithmic_differentiation.operator_overloading.ops import *
+from src.algorithmic_differentiation.operator_overloading.verify_grad import *
+from src.algorithmic_differentiation.operator_overloading.dual_number import DualNumber
 
 """
 Forward-Mode or Tangent-Mode Algorithm
