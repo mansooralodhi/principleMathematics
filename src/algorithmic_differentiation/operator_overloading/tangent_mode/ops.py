@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Union
 from numbers import Number
-from src.algorithmic_differentiation.operator_overloading.dual_number import DualNumber
+from src.algorithmic_differentiation.operator_overloading.tangent_mode.dual_number import DualNumber
 
 
 def sin(x: Union[DualNumber, Number]):

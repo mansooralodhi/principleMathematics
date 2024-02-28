@@ -1,7 +1,6 @@
-from src.algorithmic_differentiation.operator_overloading.ops import *
 from src.algorithmic_differentiation.operator_overloading.verify_grad import froward_difference
-from src.algorithmic_differentiation.operator_overloading.dual_number import DualNumber
-from typing import Callable, Union, List, Literal
+from src.algorithmic_differentiation.operator_overloading.tangent_mode.dual_number import DualNumber
+from typing import Callable, List, Literal
 from functools import wraps
 
 """

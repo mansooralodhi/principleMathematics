@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List
-from src.algorithmic_differentiation.operator_overloading import tangent_mode
+from src.algorithmic_differentiation.operator_overloading.tangent_mode import main
 
 # define a linear model:
 y = lambda x: 1.4 * x - 7
@@ -13,7 +13,7 @@ mse = lambda x, p1, p2: np.square(y(x) - f(x, p1, p2))
 
 # define learning rule
 def update_params(x: float, params: List[float]):
-    _x_grad, *params_grad = tangent_mode.gradient_vector(mse)([x, *params])
+    _x_grad, *params_grad = main.gradient_vector(mse)([x, *params])
     updated_params = np.asarray(params) - learning_rate * np.asarray(params_grad)
     return list(updated_params)
 
