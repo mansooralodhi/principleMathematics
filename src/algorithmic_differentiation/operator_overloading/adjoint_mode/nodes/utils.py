@@ -1,6 +1,6 @@
 
 
-def node_details(node):
+def print_node(node):
     print(f"Node Type:  {type(node)}")
     print(f"Node Shape:  {node.shape}")
     print(f"Node Size:  {node.size}")

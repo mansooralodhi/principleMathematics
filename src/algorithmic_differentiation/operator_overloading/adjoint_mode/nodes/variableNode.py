@@ -1,10 +1,12 @@
+
+
 import numpy as np
 from typing import Union, Optional
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.baseNode import BaseNode
 
 
 
-class ConstantNode(BaseNode):
+class VariableNode(BaseNode):
 
     count = 0
 
@@ -16,7 +18,7 @@ class ConstantNode(BaseNode):
         else:
             raise Exception("Invalid dtype of argument 'val'.")
         if name is None:
-            name = "const_%i" % cls.count
+            name = "var_%i" % cls.count
             cls.count += 1
         obj = super().__new__(cls, val.shape, val.dtype, buffer=val, strides=val.strides)
         obj.name = name
@@ -25,9 +27,9 @@ class ConstantNode(BaseNode):
 
 if __name__ == "__main__":
     nodes = []
-    nodes.append(ConstantNode(45.0))
-    nodes.append(ConstantNode(34.5))
-    nodes.append(ConstantNode(-2.0))
+    nodes.append(VariableNode(45.0))
+    nodes.append(VariableNode(34.5))
+    nodes.append(VariableNode(-2.0))
     for node in nodes:
         print(type(node))
         print(node.size)
