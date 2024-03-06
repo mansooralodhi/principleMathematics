@@ -1,18 +1,16 @@
 import numpy as np
 from typing import Union, Optional
-from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.baseNode import BaseNode
 
 Any = Union[float, np.ndarray]
 
 
-class OperationNode(BaseNode):
+class InternalOperationNode(np.ndarray):
     opNodeCounter = {}
 
     def __new__(cls, val: np.ndarray, opName: str, leftOperand: Any, rightOperand: Any = None,
                 nodeName: Optional[str] = None):
         if not isinstance(val, np.ndarray):
             val = np.asarray(val, dtype=float)
-
         obj = super().__new__(cls, val.shape, val.dtype, buffer=val, strides=val.strides)
         obj.opName = opName
         obj.leftOperand = leftOperand
@@ -27,14 +25,12 @@ class OperationNode(BaseNode):
         return obj
 
 
-#
-
 if __name__ == '__main__':
     nodes = []
-    nodes.append(OperationNode(np.asarray(21.0), 'mul', 7.0, 3.0))
-    nodes.append(OperationNode(np.asarray(81.0), 'mul', 9.0, 9.0))
-    nodes.append(OperationNode(np.asarray(81.0), 'mul', 9.0, 9.0))
-    nodes.append(OperationNode(np.asarray(3.0), 'div', 21.0, 7.0))
+    nodes.append(InternalOperationNode(np.asarray(21.0), 'mul', 7.0, 3.0))
+    nodes.append(InternalOperationNode(np.asarray(81.0), 'mul', 9.0, 9.0))
+    nodes.append(InternalOperationNode(np.asarray(81.0), 'mul', 9.0, 9.0))
+    nodes.append(InternalOperationNode(np.asarray(3.0), 'div', 21.0, 7.0))
     for node in nodes:
         print(type(node))
         print(node.size)

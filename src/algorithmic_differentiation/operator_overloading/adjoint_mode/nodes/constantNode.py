@@ -1,10 +1,11 @@
+
+
 import numpy as np
 from typing import Union, Optional
-from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.baseNode import BaseNode
+from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.absNode import AbsNode
 
 
-
-class ConstantNode(BaseNode):
+class ConstantNode(AbsNode):
 
     count = 0
 
