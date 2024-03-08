@@ -1,6 +1,10 @@
 
 
-""""""
+from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes import ops
+# from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes import ops
+from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.variableNode import VariableNode
+
+
 """
 Numpy is the base computational engine for the building
 computational graph for calculating derivatives.
@@ -17,7 +21,7 @@ two types of nodes in our upcoming computational graph:
 
 A third type of node, which is not for user but only
 internal use, inherits np.ndarray and represent an
-operational node, called 'InternalOperationNode'.
+operational node, called 'OperationNode'.
  
 Whenever ConstantNode and VariableNode interact, they call
 AbsNode specialmethods that return the InternalOperationNode. 

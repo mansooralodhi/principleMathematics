@@ -1,5 +1,6 @@
 
 
+
 def print_node(node):
     print(f"Node Type:  {type(node)}")
     print(f"Node Shape:  {node.shape}")
