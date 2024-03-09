@@ -1,12 +1,13 @@
 
 
 import numpy as np
-
+from src.utilities.logger import log_new
 
 class OperationNode(np.ndarray):
 
     opNodeCounter = {}
 
+    @log_new
     def __new__(cls, val: np.ndarray, opName: str,
                 leftOperand: np.ndarray, rightOperand: np.ndarray = None, nodeName: str = None):
 
@@ -27,6 +28,9 @@ class OperationNode(np.ndarray):
 
         obj.name = nodeName
         return obj
+
+    def __str__(self):
+        return self.name
 
 
 if __name__ == '__main__':

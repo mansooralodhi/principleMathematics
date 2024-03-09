@@ -1,7 +1,6 @@
 
 
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes import ops
-# from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes import ops
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.variableNode import VariableNode
 
 

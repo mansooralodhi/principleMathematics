@@ -3,6 +3,7 @@
 
 def print_node(node):
     print(f"Node Type:  {type(node)}")
+    print(f"Node Name:  {node.name}")
     print(f"Node Shape:  {node.shape}")
     print(f"Node Size:  {node.size}")
     print(f"Node Dtype:  {node.dtype}")
