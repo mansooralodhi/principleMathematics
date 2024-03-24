@@ -18,20 +18,17 @@ def reset():
     VariableNode.count = 0
     OperationNode.opNodeCounter = {}
 
-
 @log_fun
 def sum(array, axis=None, keepdims=False, name=None) -> OperationNode:
     _verifyInputDtype(array)
     val = np.sum(array, axis=axis, keepdims=keepdims)
     return OperationNode(val, opName='sum', leftOperand=array, nodeName=name)
 
-
 @log_fun
 def mean(array, axis=None, name=None) -> OperationNode:
     _verifyInputDtype(array)
     val = np.mean(array, axis=axis)
     return OperationNode(val, opName='mean', leftOperand=array, nodeName=name)
-
 
 @log_fun
 def exp(array, name=None) -> OperationNode:
@@ -45,20 +42,6 @@ def log(array, name=None):
     val = np.log(array)
     return OperationNode(val, opName='log', leftOperand=array, nodeName=name)
 
-
-@log_fun
-def max(array, axis=None, keepdims=False, name=None) -> OperationNode:
-    _verifyInputDtype(array)
-    val = np.max(array, axis=axis, keepdims=keepdims)
-    opNode = OperationNode(val, opName='max', leftOperand=array, nodeName=name)
-
-    # saving info for gradient
-    opNode.axis = axis
-    opNode.keep_dims = keepdims
-    opNode.with_keepdims = np.max(array, axis=axis, keepdims=True)
-    return opNode
-
-
 @log_fun
 def dot(array_a, array_b, name=None) -> OperationNode:
     _verifyInputDtype(array_a)
@@ -66,16 +49,6 @@ def dot(array_a, array_b, name=None) -> OperationNode:
     val = np.dot(array_a, array_b)
     return OperationNode(val, opName='dot', leftOperand=array_a, rightOperand=array_b, nodeName=name)
 
-
-@log_fun
-def where(condition: np.ndarray, array_a, array_b, name=None) -> OperationNode:
-    _verifyInputDtype(array_a)
-    _verifyInputDtype(array_b)
-    val = np.where(condition, array_a, array_b)
-    opNode = OperationNode(val, opName='where', leftOperand=array_a, rightOperand=array_b, nodeName=name)
-    # saving info for gradient
-    opNode.condition = condition
-    return opNode
 
 @log_fun
 def sin(array, name=None) -> OperationNode:
@@ -89,7 +62,6 @@ def cos(array, name=None):
     _verifyInputDtype(array)
     val = np.cos(array)
     return OperationNode(val, opName='cos', leftOperand=array, nodeName=name)
-
 
 @log_fun
 def reshape(array, new_shape: tuple, name=None):
@@ -113,7 +85,31 @@ def softmax_cross_entropy(logits, labels, name=None):
     logits_softmax = exp_op / np.sum(exp_op, axis=1, keepdims=True)
     cross_entropy = -1 * np.mean(labels * np.log(logits_softmax + 1e-7))
     opNode = OperationNode(cross_entropy, opName='softmax_cross_entropy', leftOperand=logits, name=name)
-    # saving info for gradient
+    # todo: understand (note: this is a scalar-valued function)
+    #  saving info for gradient
     opNode.softmax_val = logits_softmax
     opNode.labels = labels
+    return opNode
+
+@log_fun
+def max(array, axis=None, keepdims=False, name=None) -> OperationNode:
+    _verifyInputDtype(array)
+    val = np.max(array, axis=axis, keepdims=keepdims)
+    opNode = OperationNode(val, opName='max', leftOperand=array, nodeName=name)
+    # todo: understand (note: this is a scalar-valued function)
+    #  saving info for gradient
+    opNode.axis = axis
+    opNode.keep_dims = keepdims
+    opNode.with_keepdims = np.max(array, axis=axis, keepdims=True)
+    return opNode
+
+@log_fun
+def where(condition: np.ndarray, array_a, array_b, name=None) -> OperationNode:
+    _verifyInputDtype(array_a)
+    _verifyInputDtype(array_b)
+    val = np.where(condition, array_a, array_b)
+    opNode = OperationNode(val, opName='where', leftOperand=array_a, rightOperand=array_b, nodeName=name)
+    # todo: understand (note: this is a scalar-valued function)
+    #  saving info for gradient
+    opNode.condition = condition
     return opNode

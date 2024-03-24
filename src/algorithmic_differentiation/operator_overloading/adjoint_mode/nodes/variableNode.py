@@ -1,4 +1,3 @@
-
 import numpy as np
 from typing import Union, Optional
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.absNode import AbsNode
@@ -6,8 +5,8 @@ from src.utilities.logger import log_new
 
 
 class VariableNode(AbsNode):
-
     count = 0
+
     @log_new
     def __new__(cls, val: Union[float, int, np.ndarray], name: Optional[str] = None):
         if not isinstance(val, np.ndarray):
@@ -25,6 +24,7 @@ class VariableNode(AbsNode):
 
 if __name__ == "__main__":
     from utils import print_node
+
     nodes = [VariableNode(45.0), VariableNode(34.5), VariableNode(-2.0)]
     for node in nodes:
         print(node)

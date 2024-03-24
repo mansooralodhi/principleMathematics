@@ -1,5 +1,3 @@
-
-
 import numpy as np
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.constantNode import ConstantNode
 from src.algorithmic_differentiation.operator_overloading.adjoint_mode.nodes.operationNode import OperationNode
@@ -19,6 +17,7 @@ class AbsNode(np.ndarray):
     Output node: OperationNode
     Child nodes: VariableNodes
     """
+
     @log_new
     def __new__(cls, shape, dtype=float, buffer=None, offset=0, strides=None, order=None):
         return super().__new__(cls, shape, dtype, buffer, offset, strides, order)
@@ -28,6 +27,7 @@ class AbsNode(np.ndarray):
         _verifyInputDtype(other)
         val = np.add(self, other)
         return OperationNode(val, opName='add', leftOperand=self, rightOperand=other)
+
     @log_fun
     def __sub__(self, other):
         _verifyInputDtype(other)
@@ -70,11 +70,25 @@ class AbsNode(np.ndarray):
         val = np.true_divide(other, self)
         return OperationNode(val, opName='div', leftOperand=other, rightOperand=self)
 
+    @log_fun
+    def __pow__(self, power, modulo=None):
+        # self ^ power
+        _verifyInputDtype(power)
+        val = np.power(self, power)
+        return OperationNode(val, opName='pow', leftOperand=self, rightOperand=power)
+
+    @log_fun
+    def __rpow__(self, other):
+        # other ^ self
+        _verifyInputDtype(other)
+        val = np.power(other, self)
+        return OperationNode(val, opName='pow', leftOperand=other, rightOperand=self)
+
 
 if __name__ == '__main__':
     a = AbsNode((2, 3))
     b = AbsNode((2, 3))
-    node = 5 + b - 3
+    node = b ** 6
     print(f"absNode: {node}")
     print(f"absNode Shape: {node.shape}")
     print(f"absNode Type: {type(node)}")
