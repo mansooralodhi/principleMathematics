@@ -24,7 +24,7 @@ Notes on AST:
             - Variables
             - Statements
             - Expressions
--   In python, ast nodes stores their exact location in the source code, this can
+-   In python, ast graph stores their exact location in the source code, this can
     be accessed through 'lineno' and 'col_offset' parameters.
 -   At the top level, is a 'Module'. All Python files are compiled as "modules" when
     making the AST. Modules have a very specific meaning: anything that can be run

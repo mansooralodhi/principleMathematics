@@ -1,6 +1,6 @@
 import ast
 
-from src.algorithmic_differentiation.src_code_transformation.dual_node import DualNode
+from src.algorithmic_differentiation.src_code_transformation.dualNode import DualNode
 
 
 def add(op1: DualNode, op2: DualNode):

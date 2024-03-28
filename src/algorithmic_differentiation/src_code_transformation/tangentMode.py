@@ -1,6 +1,6 @@
 import ast
 from typing import Union, Tuple
-from src.algorithmic_differentiation.src_code_transformation.dual_node import *
+from src.algorithmic_differentiation.src_code_transformation.dualNode import *
 
 
 
@@ -19,7 +19,7 @@ class TangentModeDerivative(ast.NodeTransformer):
             expressions that have nested BinOp only.
             the BinOp is expected to possess only ast.Name or ast.Constant.
         2.  once you transform a single ast node into DualNode then you
-            have to transform all parent nodes into DualNode as well.
+            have to transform all parent graph into DualNode as well.
     """
 
     def __init__(self, *wrt_var: Union[str, Tuple[str]]):

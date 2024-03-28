@@ -11,7 +11,7 @@ class InvTransform(ast.NodeTransformer):
             node.op = ast.Div()
         """
         Official:
-            Note that child nodes of nodes that have a custom visitor method, visit_[class-name],
+            Note that child graph of graph that have a custom visitor method, visit_[class-name],
             won’t be visited unless the visitor calls generic_visit() or visits them itself.
         Thus we call the parent class generic_visit() method. 
         The super() call is what propagates the tree traversal down the tree.

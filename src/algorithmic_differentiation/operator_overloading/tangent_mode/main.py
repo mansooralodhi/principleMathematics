@@ -1,5 +1,5 @@
 from src.algorithmic_differentiation.operator_overloading.verify_grad import froward_difference
-from src.algorithmic_differentiation.operator_overloading.tangent_mode.dual_number import DualNumber
+from src.algorithmic_differentiation.operator_overloading.tangent_mode.dualNumber import DualNumber
 from typing import Callable, List, Literal
 from functools import wraps
 
