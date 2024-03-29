@@ -18,9 +18,15 @@ NB: nodes in computational graph traced through
 
 
 def trace_adjoints(endNode: Node) -> defaultdict:
-    nodes = list()
-    adjointOps = Adjoint()
+    """
+    this method only works for scalar-valued
+    function. call this method iteratively for
+    a vector-values function. and this is what
+    actually happens.
+    """
+
     queue = deque()
+    adjointOps = Adjoint()
 
     endNode.adjoint = 1
     queue.append(endNode)
@@ -28,39 +34,26 @@ def trace_adjoints(endNode: Node) -> defaultdict:
 
     while queue:
 
-        currNode = queue.popleft()
+        node = queue.popleft()
 
-        if currNode.opName is None:
-            # variable or constant
-            if 'const' in currNode.nodeName:
-                currNode.adjoint = 0
-            adjoints[currNode.nodeName] = currNode.adjoint
-            # print("-" * 35)
-            # print("Current node: ", currNode)
-            # print("Node Adjoint: ", currNode.adjoint)
-            # print("Node value: ", currNode.value)
-            # print("-" * 35)
+        if node.opName is None:
+            # node is leaf node; constant or variable
+            if not 'const' in node.nodeName:
+                # node is variable node
+                adjoints[node.nodeName] = node.adjoint
+                # todo: node.adjoint = 0 -> is it necessary ?
             continue
 
-        # print("-" * 35)
-        # print("Current node: ", currNode)
-        # print("Node Adjoint: ", currNode.adjoint)
-        # print("Node value: ", currNode.value)
-        # print("Right operand: ", currNode.rightOperand)
-        # print("Left operand: ", currNode.leftOperand)
-        # print("-" * 35)
+        # apply chain rule
+        leftAdjoint, rightAdjoint = getattr(adjointOps, node.opName)(node)
 
-        leftAdjoint, rightAdjoint = getattr(adjointOps, currNode.opName)(currNode)
+        node.leftOperand.adjoint += leftAdjoint
+        node.rightOperand.adjoint += rightAdjoint
 
-        currNode.leftOperand.adjoint += leftAdjoint
-        currNode.rightOperand.adjoint += rightAdjoint
-
-        nodes.append(currNode.nodeName)
-
-        if currNode.rightOperand is not None:
-            queue.append(currNode.rightOperand)
-        if currNode.leftOperand is not None:
-            queue.append(currNode.leftOperand)
+        if node.rightOperand is not None:
+            queue.append(node.rightOperand)
+        if node.leftOperand is not None:
+            queue.append(node.leftOperand)
 
     return adjoints
 
@@ -71,26 +64,25 @@ def trace_nodes(endNode: Node) -> Sequence[str]:
     queue = deque()
     queue.append(endNode)
     while queue:
-        currNode = queue.popleft()
+        node = queue.popleft()
         print("-" * 35)
-        print("Current node: ", currNode)
-        print("Node value: ", currNode.value)
-        print("Right operand: ", currNode.rightOperand)
-        print("Left operand: ", currNode.leftOperand)
+        print("Current node: ", node)
+        print("Node value: ", node.value)
+        print("Right operand: ", node.rightOperand)
+        print("Left operand: ", node.leftOperand)
         print("-" * 35)
-        nodes.append(currNode.nodeName)
-        if currNode.rightOperand is not None:
-            queue.append(currNode.rightOperand)
-        if currNode.leftOperand is not None:
-            queue.append(currNode.leftOperand)
+        nodes.append(node.nodeName)
+        if node.rightOperand is not None:
+            queue.append(node.rightOperand)
+        if node.leftOperand is not None:
+            queue.append(node.leftOperand)
     return nodes
 
 
 if __name__ == "__main__":
-    import numpy as np
     x1 = Node(2.0, 'x1')
     x2 = Node(4.0, 'x2')
     x3 = Node(4.0, 'x3')
     node = (4*x1 - x2*x3) * (x1*x2 + x3)
-    print(node.value)
-    print(trace_adjoints(node))
+    print("f: " , node.value)
+    print("f': ", trace_adjoints(node))
