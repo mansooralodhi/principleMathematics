@@ -13,7 +13,7 @@ class Traverse(ast.NodeVisitor):
         Copied from ast.NodeVisitor.
         """
         method = 'visit_' + node.__class__.__name__
-        print("Entering Node: ", method)
+        print("Entering GraphNode: ", method)
         # value = getattr(object, attribute_name, default_value)
         visitor = getattr(self, method, self.generic_visit)
         return visitor(node)

@@ -7,7 +7,7 @@ Source:
     Supplementary:
 
         Parse Tree:                 https://dev.to/mblayman/deciphering-python-how-to-use-abstract-syntax-trees-ast-to-understand-code-gfm
-        Transform a Node:           https://tobiaskohn.ch/index.php/2018/07/30/transformations-in-python/
+        Transform a GraphNode:           https://tobiaskohn.ch/index.php/2018/07/30/transformations-in-python/
         Tree in conjunction with
         operator overloading        https://towardsdatascience.com/build-your-own-automatic-differentiation-program-6ecd585eec2a
 

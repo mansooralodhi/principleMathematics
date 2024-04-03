@@ -1,13 +1,22 @@
 
-
 import numpy as np
 from collections import defaultdict
 
 
-class Node(np.ndarray):
+"""
+Implemented Forward-Mode Operations:
+    1. add
+    2. sub
+    3. mul
+    4. div
+    5. pow
+    6. transpose
+"""
+
+class GraphNode(np.ndarray):
     """
     Remember:
-            -   if 'opName' is None then node is a leaf (constant or variable) Node
+            -   if 'opName' is None then node is a leaf (constant or variable) GraphNode
     """
 
     constNodeCounter = 0
@@ -33,14 +42,16 @@ class Node(np.ndarray):
         obj.nodeName = nodeName
         obj.leftOperand = leftOperand
         obj.rightOperand = rightOperand
+
         obj.adjoint = 0.0
+        obj.with_keepdims = None
+        obj.axis = None
 
         return obj
 
 
     def __str__(self):
         return self.nodeName
-
 
     def __add__(self, other):
         return self._numpyOperation('__add__', 'add', self, other)
@@ -75,30 +86,32 @@ class Node(np.ndarray):
     @property
     def T(self):
         val = np.transpose(self)
-        return Node(val, opName='transpose', leftOperand=self)
+        return GraphNode(val, opName='transpose', leftOperand=self)
 
     @property
     def value(self):
-        return np.frombuffer(self.data, dtype=self.dtype)
+        # return np.frombuffer(self.data, dtype=self.dtype) # --> list
+        return np.asarray(self)  # --> original val shape
 
     @staticmethod
     def _numpyOperation(funcName, opName, leftOperand, rightOperand):
-        # todo: is it really necessary to create a constant value as a Node ?
-        if not isinstance(rightOperand, Node):
-            rightOperand = Node(val=rightOperand, nodeName='const')
-        if not isinstance(leftOperand, Node):
-            leftOperand = Node(val=leftOperand, nodeName='const')
+        # Q: is it really necessary to create a constant value as a GraphNode ?
+        # A: yes, to smooth the process of breadth-first-traversal.
+        if not isinstance(rightOperand, GraphNode):
+            rightOperand = GraphNode(val=rightOperand, nodeName='const')
+        if not isinstance(leftOperand, GraphNode):
+            leftOperand = GraphNode(val=leftOperand, nodeName='const')
         val = getattr(np.ndarray, funcName)(leftOperand, rightOperand)
-        return Node(val, opName=opName, leftOperand=leftOperand, rightOperand=rightOperand)
+        return GraphNode(val, opName=opName, leftOperand=leftOperand, rightOperand=rightOperand)
 
 
 if __name__ == '__main__':
-    a = Node(3.0, 'x')
-    b = Node(4.0, 'y')
+    a = GraphNode(3.0, 'x')
+    b = GraphNode(4.0, 'y')
     node = 7 * (a * (b + 2.0))
-    print(f"Node: {node}")
-    print(f"Node Shape: {node.shape}")
-    print(f"Node Type: {type(node)}")
-    print(f"Node Name: {node.nodeName}")
-    print(f"Node Values: {node.tolist()}")
+    print(f"GraphNode: {node}")
+    print(f"GraphNode Shape: {node.shape}")
+    print(f"GraphNode Type: {type(node)}")
+    print(f"GraphNode Name: {node.nodeName}")
+    print(f"GraphNode Values: {node.tolist()}")
     print(isinstance(a, np.ndarray))

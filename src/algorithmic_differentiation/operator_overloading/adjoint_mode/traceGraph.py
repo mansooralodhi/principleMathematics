@@ -1,8 +1,8 @@
 
 from typing import Sequence
 from collections import deque, defaultdict
-from src.algorithmic_differentiation.operator_overloading.adjoint_mode.adjoints import Node
-from src.algorithmic_differentiation.operator_overloading.adjoint_mode.adjoints import Adjoint
+from src.algorithmic_differentiation.operator_overloading.adjoint_mode.opsReverseMode import GraphNode
+from src.algorithmic_differentiation.operator_overloading.adjoint_mode.opsReverseMode import Adjoint
 
 """
 NB: nodes in computational graph traced through
@@ -17,12 +17,12 @@ NB: nodes in computational graph traced through
 """
 
 
-def trace_adjoints(endNode: Node) -> defaultdict:
+def trace_adjoints(endNode: GraphNode) -> defaultdict:
     """
     this method only works for scalar-valued
     function. call this method iteratively for
     a vector-values function. and this is what
-    actually happens.
+    actually happens for a vector-valued function.
     """
 
     queue = deque()
@@ -58,7 +58,7 @@ def trace_adjoints(endNode: Node) -> defaultdict:
     return adjoints
 
 
-def trace_nodes(endNode: Node) -> Sequence[str]:
+def trace_nodes(endNode: GraphNode) -> Sequence[str]:
     # using breadth-first-traversal
     nodes = list()
     queue = deque()
@@ -67,7 +67,7 @@ def trace_nodes(endNode: Node) -> Sequence[str]:
         node = queue.popleft()
         print("-" * 35)
         print("Current node: ", node)
-        print("Node value: ", node.value)
+        print("GraphNode value: ", node.value)
         print("Right operand: ", node.rightOperand)
         print("Left operand: ", node.leftOperand)
         print("-" * 35)
@@ -80,9 +80,11 @@ def trace_nodes(endNode: Node) -> Sequence[str]:
 
 
 if __name__ == "__main__":
-    x1 = Node(2.0, 'x1')
-    x2 = Node(4.0, 'x2')
-    x3 = Node(4.0, 'x3')
-    node = (4*x1 - x2*x3) * (x1*x2 + x3)
+    # import numpy as np
+    # x = np.random.randint(0, 10, (2, 3))
+    x1 = GraphNode(2.0, 'x1')
+    x2 = GraphNode(4.0, 'x2')
+    x3 = GraphNode(4.0, 'x3')
+    node = (4*x1 - x2*x3) * (x1*x2 + x3) # forward-pass
     print("f: " , node.value)
-    print("f': ", trace_adjoints(node))
+    print("f': ", trace_adjoints(node)) # reverse-pass / adjoint-mode
